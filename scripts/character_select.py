@@ -77,19 +77,15 @@ class CharacterSelect(scripts.Script):
         self.hm_config_7 = "wai_character.json"
         
         if(self.chk_character(self.hm_config_7) == False):
-            print("character file:" + self.settings["wai_json_url1"] + " downloading...")
-            self.download_json(self.settings["wai_json_url1"], os.path.join(CharacterSelect.BASEDIR, "wai_character.json"))
+            print("character file:" + self.settings["wai_json_url"] + " downloading...")
+            self.download_json(self.settings["wai_json_url"], os.path.join(CharacterSelect.BASEDIR, "wai_character.json"))
             print("character file download finish")
 
         self.hm_config_1_component = self.get_config2(self.hm_config_1)
         for item in self.get_character(self.hm_config_7):
             self.hm_config_1_component.update({item : item})
 
-        self.hm_config_2_component = self.get_config2(self.hm_config_2)
-
         self.hm_config_1_img = self.get_characterimg(self.hm_config_7)
-        for item in self.get_characterimg(self.hm_config_8):
-            self.hm_config_1_img.append(item)
         
         self.hm1prompt = ""
 
@@ -118,12 +114,6 @@ class CharacterSelect(scripts.Script):
             variant="primary",
             render = False,
             elem_id=f"{self.elm_prfx}_neg_prompt_btn"
-        )
-        CharacterSelect.txt2img_prompt_btn = gr.Button(
-            value="set Character",
-            variant="primary",
-            render = False,
-            elem_id=f"{self.elm_prfx}_prompt_btn"
         )
         CharacterSelect.txt2img_radom_prompt_btn = gr.Button(
             value="radom Character",
@@ -189,15 +179,11 @@ class CharacterSelect(scripts.Script):
             with gr.Row(equal_height = True):
                 CharacterSelect.txt2img_hm1_dropdown.render() 
             with gr.Row(equal_height = True):
-                CharacterSelect.txt2img_hmzht_dropdown.render() 
-            with gr.Row(equal_height = True):
                 CharacterSelect.txt2img_hm1_slider.render() 
             with gr.Row(equal_height = True):
                 CharacterSelect.txt2img_hm1_img.render()
             with gr.Row(equal_height = True):
                 CharacterSelect.txt2img_radom_prompt_btn.render()
-        with gr.Row(equal_height = True):
-            CharacterSelect.txt2img_prompt_btn.render()
         with gr.Accordion(label="Other Setting", open = False, elem_id=f"{'txt2img' if self.is_txt2img else 'img2img'}_h_setting_accordion"):
             with gr.Row(equal_height = True):
                 CharacterSelect.func01_chk.render()
@@ -241,10 +227,6 @@ class CharacterSelect(scripts.Script):
     def _ui(self):
         # Conditional for class members
         if self.is_txt2img:
-            CharacterSelect.txt2img_prompt_btn.click(
-                fn=self.fetch_valid_values_from_prompt,
-                outputs=self.prompt_component
-            )
             CharacterSelect.txt2img_neg_prompt_btn.click(
                 fn=self.fetch_neg_prompt,
                 outputs=[self.neg_prompt_component,self.steps_component,self.height_component,self.width_component]
@@ -254,11 +236,6 @@ class CharacterSelect(scripts.Script):
                 fn=self.hm1_setting,
                 inputs=[CharacterSelect.txt2img_hm1_dropdown,self.prompt_component],
                 outputs=[CharacterSelect.txt2img_hm1_img, self.prompt_component,CharacterSelect.txt2img_hm1_slider]
-            )
-            CharacterSelect.txt2img_hmzht_dropdown.change(
-                fn=self.hmzht_setting,
-                inputs=[CharacterSelect.txt2img_hmzht_dropdown],
-                outputs=[CharacterSelect.txt2img_hm1_dropdown]
             )
             CharacterSelect.txt2img_hm1_slider.release(
                 fn=self.hm1_setting2,
