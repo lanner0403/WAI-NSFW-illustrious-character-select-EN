@@ -1,5 +1,7 @@
 # WAI-NSFW-illustrious-character-select-EN
+
 character select for WAI-NSFW-illustrious-SDXL
+
 WAI-NSFW-illustrious-SDXL
 https://civitai.com/models/827184?modelVersionId=1283437
 
