@@ -5,6 +5,7 @@ https://civitai.com/models/827184?modelVersionId=1283437
 
 
 other dependence
+
 add-detail-xl
 https://huggingface.co/PvDeep/Add-Detail-XL/blob/main/add-detail-xl.safetensors
 
